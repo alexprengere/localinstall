@@ -1,7 +1,11 @@
-localinstall
+LocalInstall
 ============
 
 Local installer of Python packages.
+This requires *pip*.
+
+Python API
+----------
 Expose function to install and import locally.
 
 This piece of code is used to install on the fly
@@ -15,5 +19,9 @@ pytz = install('pytz')
 NO_PYTZ = pytz is None
 ```
 
-This requires *pip*.
-
+CLI
+---
+```bash
+python local_install.py pytz
+python local_install.py pytz --target toto
+```
