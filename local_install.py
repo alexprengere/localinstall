@@ -56,9 +56,8 @@ def install(package, url=None, build_dir=None, target_dir=None, verbose=True):
         p = __import__(package)
 
     except ImportError:
-        if verbose:
-            print >> sys.stderr, "Could not import at first. Installing %s in %s..." % \
-                    (package, target_dir)
+        print >> sys.stderr, "Could not import at first. Installing %s in %s..." % \
+                (package, target_dir)
 
         # This will create an egg in local site-packages
         # We could have used setuptools.command.main instead of pip.main,
@@ -68,10 +67,15 @@ def install(package, url=None, build_dir=None, target_dir=None, verbose=True):
         # writing rights on the user sitepackage
         # stdout is temporarily redirect to stderr to avoid polluting stdout
         # (useful for Hadoop jobs)
-        sys.stdout = sys.__stderr__
+        if verbose:
+            sys.stdout = sys.__stderr__
+        else:
+            sys.stdout = open(os.devnull, 'w')
+
         pip.main(['install', url,
                   '--build', build_dir,
                   '--target', target_dir])
+
         sys.stdout = sys.__stdout__
 
         # Testing now
@@ -80,14 +84,12 @@ def install(package, url=None, build_dir=None, target_dir=None, verbose=True):
 
         except ImportError:
             p = None
-            if verbose:
-                print >> sys.stderr, "Could not import %s!" % package
+            print >> sys.stderr, "Could not import %s!" % package
         else:
             print >> sys.stderr, "%s successfully imported after installation." % package
 
     else:
-        if verbose:
-            print >> sys.stderr, "%s successfully imported without doing anything." % package
+        print >> sys.stderr, "%s successfully imported without doing anything." % package
 
     # Cleaning
     del sys.path[0]
@@ -103,6 +105,7 @@ if __name__ == '__main__':
     parser.add_argument("-b", "--build", help="Build directory", default=None)
     parser.add_argument("-t", "--target", help="Target directory", default=None)
     parser.add_argument("-u", "--url", help="Url", default=None)
+    parser.add_argument("-q", "--quiet", help="Hide installation messages", action='store_true')
 
     args = parser.parse_args()
 
@@ -110,5 +113,5 @@ if __name__ == '__main__':
             url=args.url,
             build_dir=args.build,
             target_dir=args.target,
-            verbose=True)
+            verbose=not args.quiet)
 
