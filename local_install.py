@@ -102,10 +102,31 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Local installer of packages.")
 
     parser.add_argument("package_name", help="Package name")
-    parser.add_argument("-b", "--build", help="Build directory", default=None)
-    parser.add_argument("-t", "--target", help="Target directory", default=None)
-    parser.add_argument("-u", "--url", help="Url", default=None)
-    parser.add_argument("-q", "--quiet", help="Hide installation messages", action='store_true')
+
+    parser.add_argument("-b", "--build",
+        help="""
+        Build directory. Default is a temporary directory.
+        """,
+        default=None)
+
+    parser.add_argument("-t", "--target",
+        help="""
+        Target directory. Default is a temporary directory.
+        """,
+        default=None)
+
+    parser.add_argument("-u", "--url",
+        help="""
+        Url. Installer will use the package name unless this
+        argument is given.
+        """,
+        default=None)
+
+    parser.add_argument("-q", "--quiet",
+        help="""
+        Hide installation messages.
+        """,
+        action='store_true')
 
     args = parser.parse_args()
 
