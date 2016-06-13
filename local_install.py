@@ -57,7 +57,7 @@ def install(package, url=None, build_dir=None, target_dir=None, verbose=True):
 
     except ImportError:
         print >> sys.stderr, "Could not import at first. Installing %s in %s..." % \
-                (package, target_dir)
+            (package, target_dir)
 
         # This will create an egg in local site-packages
         # We could have used setuptools.command.main instead of pip.main,
@@ -104,29 +104,29 @@ if __name__ == '__main__':
     parser.add_argument("package_name", help="Package name")
 
     parser.add_argument("-b", "--build",
-        help="""
-        Build directory. Default is a temporary directory.
-        """,
-        default=None)
+                        help="""
+                        Build directory. Default is a temporary directory.
+                        """,
+                        default=None)
 
     parser.add_argument("-t", "--target",
-        help="""
-        Target directory. Default is a temporary directory.
-        """,
-        default=None)
+                        help="""
+                        Target directory. Default is a temporary directory.
+                        """,
+                        default=None)
 
     parser.add_argument("-u", "--url",
-        help="""
-        Url. Installer will use the package name unless this
-        argument is given.
-        """,
-        default=None)
+                        help="""
+                        Url. Installer will use the package name unless this
+                        argument is given.
+                        """,
+                        default=None)
 
     parser.add_argument("-q", "--quiet",
-        help="""
-        Hide installation messages.
-        """,
-        action='store_true')
+                        help="""
+                        Hide installation messages.
+                        """,
+                        action='store_true')
 
     args = parser.parse_args()
 
@@ -135,4 +135,3 @@ if __name__ == '__main__':
             build_dir=args.build,
             target_dir=args.target,
             verbose=not args.quiet)
-
